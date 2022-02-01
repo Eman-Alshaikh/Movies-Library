@@ -24,8 +24,8 @@ app.use('/error', errorHandelor);
 app.use('*', notFoundHandeler);
 let numberOfMovies=3;
 
-let url = 'https://api.themoviedb.org/3/movie/550?api_key=${process.env.APIKEY}&number=${numberOfMovies}';
-
+let url = `https://api.themoviedb.org/3/movie/550?api_key=${process.env.APIKEY}&number=${numberOfMovies}&language=en-US`;
+let url2=`https://api.themoviedb.org/3/trending/all/week?api_key=${process.env.APIKEY}&language=en-US`
 //constructor
 function Movie(id, title, release_date, poster_path, overview) {
     this.id = id;
@@ -61,10 +61,10 @@ function homePagedHandeler(req, res) {
 
 function moviesHandeler(req, res) {
     let newArr = [];
-    axios.get(url)
+    axios.get(url2)
      .then((result)=>{
-      
-       result.data.movies.forEach(movie => {
+      console.log(result);
+       result.data.results.forEach(movie => {
            
      
         newArr.push(new Movie(movie.id,movie.title,movie.release_date,movie.poster_path,movie.overview));
@@ -84,7 +84,7 @@ function searchMoviesHandler(req,res)
     axios.get(url)
     .then(result=>{
         // console.log(result.data.recipes);
-        let movies = result.data.movies.map(movie =>{
+        let movies = result.data.results.map(movie =>{
             return new Movie(movie.id,movie.title,movie.release_date,movie.poster_path,movie.overview);
         });
         res.status(200).json(movies);  
