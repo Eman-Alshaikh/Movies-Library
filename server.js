@@ -22,9 +22,9 @@ app.get('/trending', moviesHandeler);
 app.get('/search',searchMoviesHandler);
 
 //getMovies: Create a get request to get all the data from the database
-app.get('/getMovies',getAllMovieData);
+//app.get('/getMovies',getAllMovieData);
 //addMovie : create a post request to save a specific movie to database along with your personal comments.
-app.post('/addMovie',saveMovieHandelor);
+//app.post('/addMovie',saveMovieHandelor);
 
 app.use('/error',errorHandelor);
 
