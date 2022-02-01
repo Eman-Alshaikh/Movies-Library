@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
+    "dotenv": "^15.0.0",
     "eslint-g": "^1.3.4",
     "express": "^4.17.2"
   },
