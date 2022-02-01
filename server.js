@@ -11,13 +11,22 @@ app.use(cors());
 
 const moviedata = require('./data.json');
 
+//first:require pg// library using to create client 
+const pg=require('pg');
+// CREATE NEW BD in my machine 
+const client=new pg.Client(DBurl);
 app.get('/', homePagedHandeler);
 
 app.get('/favourates', favouratesHandeler);
 app.get('/trending', moviesHandeler);
 app.get('/search',searchMoviesHandler);
 
-app.use('/error', errorHandelor);
+//getMovies: Create a get request to get all the data from the database
+app.get('/getMovies',getAllMovieData);
+//addMovie : create a post request to save a specific movie to database along with your personal comments.
+app.post('/addMovie',saveMovieHandelor);
+
+app.use('/error',errorHandelor);
 
  
 
