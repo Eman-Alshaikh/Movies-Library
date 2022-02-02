@@ -8,13 +8,15 @@ const axios = require('axios');
 const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
+app.use(express.json()); // whenever you read from body -> parse it to json format 
 
 const moviedata = require('./data.json');
 
 //first:require pg// library using to create client 
 const pg=require('pg');
 // CREATE NEW BD in my machine 
-const client=new pg.Client(DBurl);
+//DATABASE_URL=postgres://student:emaneman2626@localhost:5432/theMovie
+const client=new pg.Client(process.env.DATABASE_URL);
 app.get('/', homePagedHandeler);
 
 app.get('/favourates', favouratesHandeler);
@@ -24,7 +26,7 @@ app.get('/search',searchMoviesHandler);
 //getMovies: Create a get request to get all the data from the database
 //app.get('/getMovies',getAllMovieData);
 //addMovie : create a post request to save a specific movie to database along with your personal comments.
-//app.post('/addMovie',saveMovieHandelor);
+//app.post('/addMovie',addMovieHandelor);
 
 app.use('/error',errorHandelor);
 
@@ -50,9 +52,7 @@ function Movie(id, title, release_date, poster_path, overview) {
 function favouratesHandeler(req, res) {
     return res.status(200).send("Welcome to Favorite Page");
 }
-app.listen(PORT, () => {
-    console.log(`listining to port ${PORT}`)
-});
+
 
 
 function homePagedHandeler(req, res) {
@@ -102,6 +102,21 @@ function searchMoviesHandler(req,res)
 
     })
 }
+
+//app.post('/addMovie',addMovieHandelor);
+function addMovieHandelor(req,res)
+{
+    console.log(req.body);
+   /* const movie=req.body;
+   
+    let sql=`INSERT INTO favMovi(adult,backdrop_path,belongs_to_collection,budget,genres,homepage,id,imdb_id,original_languag,original_title,overview,popularity,poster_path,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,video,vote_average,vote_count) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING *;`
+    let values=[movie.adu];
+  client.query(sql,values).then(data =>{
+      res.status(200).json(data.rows);
+  }).catch(error=>{
+      errorHandler(error,req,res)
+  });*/
+}
 function  errorHandelor(req, res) {
    
     return res.status(500).send('status: 500   /    error');
@@ -110,3 +125,12 @@ function  errorHandelor(req, res) {
 function notFoundHandeler(req, res) {
     return res.status(404).send('status: 404   /  page not found error');
 }
+
+
+//to connect to the DBfirstly , then after successfull connection -> run the server 
+
+client.connect().then(()=>{
+   app.listen(PORT,()=>{
+        console.log(`listining to port ${PORT}`)
+    })
+})
