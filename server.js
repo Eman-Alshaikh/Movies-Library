@@ -24,9 +24,9 @@ app.get('/trending', moviesHandeler);
 app.get('/search',searchMoviesHandler);
 
 //getMovies: Create a get request to get all the data from the database
-//app.get('/getMovies',getAllMovieData);
+ app.get('/getMovies',getMovieHandelor);
 //addMovie : create a post request to save a specific movie to database along with your personal comments.
-//app.post('/addMovie',addMovieHandelor);
+app.post('/addMovie',addMovieHandelor);
 
 app.use('/error',errorHandelor);
 
@@ -102,20 +102,43 @@ function searchMoviesHandler(req,res)
 
     })
 }
+//getMovies: Create a get request to get all the data from the database
+app.get('/getMovies',getMovieHandelor);
+//addMovie : create a post request to save a specific movie to database along with your personal comments.
+app.post('/addMovie',addMovieHandelor);
 
-//app.post('/addMovie',addMovieHandelor);
+
+//getMovies: Create a get request to get all the data from the database
+//app.get('/getMovies',getMovieHandelor);
 function addMovieHandelor(req,res)
+  
+
 {
     console.log(req.body);
-   /* const movie=req.body;
-   
-    let sql=`INSERT INTO favMovi(adult,backdrop_path,belongs_to_collection,budget,genres,homepage,id,imdb_id,original_languag,original_title,overview,popularity,poster_path,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,video,vote_average,vote_count) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING *;`
-    let values=[movie.adu];
+    const movie=req.body;
+   console.log(movie);
+    let sql=`INSERT INTO favmovie(title,release_date,poster_path,overview,comment) VALUES($1,$2,$3,$4,$5) RETURNING *;`
+    let values=[movie.title,movie.release_date,movie.poster_path,movie.overview,movie.comment];
   client.query(sql,values).then(data =>{
       res.status(200).json(data.rows);
   }).catch(error=>{
-      errorHandler(error,req,res)
-  });*/
+    errorHandelor(req, res)
+  }); 
+}
+
+//addMovie : create a post request to save a specific movie to database along with your personal comments.
+ 
+//app.post('/addMovie',addMovieHandelor);
+function getMovieHandelor (req,res)
+ 
+{
+let sql = `SELECT * FROM favmovie;`;
+client.query(sql).then(data=>{
+   res.status(200).json(data.rows);
+}).catch(error=>{
+    errorHandelor(req, res)
+});
+
 }
 function  errorHandelor(req, res) {
    
