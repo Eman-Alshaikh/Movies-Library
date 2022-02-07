@@ -14,16 +14,15 @@ const moviedata = require('./data.json');
 
 //first:require pg// library using to create client 
 const pg = require('pg');
+//const client = require('pg/lib/native/client');
+//const client = require('pg/lib/native/client');
 // CREATE NEW BD in my machine 
 //DATABASE_URL=postgres://student:emaneman2626@localhost:5432/theMovie
-
-const client = new pg.Client({
+/*const client = new pg.Client({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
-})
-
-
-//const client = new pg.Client(process.env.DATABASE_URL);
+})*/
+const client=new pg.Client(process.env.DATABASE_URL);
 app.get('/', homePagedHandeler);
 
 app.get('/favourates', favouratesHandeler);
@@ -159,10 +158,11 @@ function updatamoviehandelor(req,res)
     //het the id to send in the url request
  const id= req.params.id;
 // send the updated data using sql statement which will update
-console.log(req.params.name);
+//console.log(req.params.id);
 const movie = req.body;
-const sql = `UPDATE favMovie; SET title =$1,release_date= $2, poster_path= $3 ,overview=$4, comment=$5  WHERE id=$6 RETURNING *;`; 
+const sql = `UPDATE favmovie SET title =$1,release_date= $2, poster_path= $3 ,overview=$4, comment=$5  WHERE id=$6 RETURNING *;`; 
 let values = [movie.title, movie.release_date, movie.poster_path, movie.overview, movie.comment,id];
+
 
 
  client.query(sql,values).then(data=>{
@@ -176,7 +176,8 @@ let values = [movie.title, movie.release_date, movie.poster_path, movie.overview
 // WHERE condition;
 }
 
- 
+ /////////////////////////////////////
+  
 
 //   /DELETE/id : create a delete request to remove a specific movie from your database.
  function deletemoviehandelor(req,res)
