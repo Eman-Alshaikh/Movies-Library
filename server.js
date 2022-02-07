@@ -218,7 +218,7 @@ function notFoundHandeler(req, res) {
 }
 
 
-//to connect to the DBfirstly , then after successfull connection -> run the server 
+////to connect to the DBfirstly , then after successfull connection -> run the server 
 
 client.connect().then(() => {
     app.listen(PORT, () => {
