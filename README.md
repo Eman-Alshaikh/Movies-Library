@@ -33,5 +33,8 @@ In task 14 i implemented the functions for these  following URL that the user wi
 ## Project Features
 <!-- What are the features included in you app -->
 Using this  movie app you  can check the latest movies based on categories.
-=======
+ 
+
+
+![14](https://user-images.githubusercontent.com/97835837/152347830-9f355b4e-c7e3-4da4-b84b-46dfee5c3684.jpg)
  
