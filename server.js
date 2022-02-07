@@ -16,7 +16,14 @@ const moviedata = require('./data.json');
 const pg = require('pg');
 // CREATE NEW BD in my machine 
 //DATABASE_URL=postgres://student:emaneman2626@localhost:5432/theMovie
-const client = new pg.Client(process.env.DATABASE_URL);
+
+const client = new pg.Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+})
+
+
+//const client = new pg.Client(process.env.DATABASE_URL);
 app.get('/', homePagedHandeler);
 
 app.get('/favourates', favouratesHandeler);
